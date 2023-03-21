@@ -23,7 +23,14 @@ router.get('/logout', function (req, res, next) {
 })
 
 router.get('/', function (req, res, next) {
-    res.render("admin/index", admin.getParams(req))
+
+    admin.dashboard().then((data) => {
+        res.render("admin/index", admin.getParams(req, {
+            data
+        }))
+    }).catch((err) => {
+        console.log(err);
+    })
 })
 
 router.post('/login', function (req, res, next) {
