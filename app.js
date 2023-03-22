@@ -23,7 +23,8 @@ app.use(function (req, res, next) {
   })
 
   form.parse(req, (err, fields, files) => {
-    req.fields = fields,
+    req.body = fields,
+      req.fields = fields,
       req.files = files,
       next();
   })
@@ -45,7 +46,7 @@ app.use(session({
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
