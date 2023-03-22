@@ -49,12 +49,7 @@
               <td><% row.description %></td>
               <td><% row.price %></td>
               <td>
-                <button
-                  type="button"
-                  class="btn btn-xs btn-info btn-update"
-                  data-toggle="modal"
-                  data-target="#modal-update"
-                >
+                <button type="button" class="btn btn-xs btn-info btn-update">
                   <i class="fa fa-pencil"></i> Editar</button
                 >&nbsp;<button
                   type="button"
@@ -240,5 +235,27 @@
       .then((json) => {
         window.location.reload();
       });
+  });
+
+  let formUpdate = document.querySelector("#modal-update form");
+
+  [...document.querySelectorAll(".btn-update")].forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      let tr = btn.parentNode.parentNode;
+      let data = JSON.parse(tr.dataset.row);
+
+      for (let name in data) {
+        switch (name) {
+          case "photo":
+            break;
+
+          default:
+            let input = formUpdate.querySelector(`[name=${name}]`);
+            if (input) input.value = data[name];
+        }
+      }
+
+      $("#modal-update").modal("show");
+    });
   });
 </script>
