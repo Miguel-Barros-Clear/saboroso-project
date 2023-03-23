@@ -247,6 +247,26 @@
       console.log(err);
     });
 
+  [...document.querySelectorAll(".btn-delete")].forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      let tr = btn.parentNode.parentNode;
+      let data = JSON.parse(tr.dataset.row);
+
+      console.log("Aoba");
+
+      if (confirm(`Deseja realmente excluir o menu ${data.title}`))
+        fetch(`/admin/menus/${data.id}`, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            response.json();
+          })
+          .then((json) => {
+            window.location.reload();
+          });
+    });
+  });
+
   [...document.querySelectorAll(".btn-update")].forEach((btn) => {
     btn.addEventListener("click", (e) => {
       let tr = btn.parentNode.parentNode;
