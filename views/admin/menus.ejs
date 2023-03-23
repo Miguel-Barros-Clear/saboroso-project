@@ -252,8 +252,6 @@
       let tr = btn.parentNode.parentNode;
       let data = JSON.parse(tr.dataset.row);
 
-      console.log("Aoba");
-
       if (confirm(`Deseja realmente excluir o menu ${data.title}`))
         fetch(`/admin/menus/${data.id}`, {
           method: "DELETE",
