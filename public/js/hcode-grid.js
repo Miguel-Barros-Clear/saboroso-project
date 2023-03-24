@@ -43,31 +43,35 @@ class HcodeGrid {
     initForms() {
         this.formCreate = document.querySelector(this.options.formCreate);
 
-        this.formCreate
-            .save({
-                success: () => {
-                    this.fireEvent('afterFormCreate');
+        if (this.formCreate) {
+            this.formCreate
+                .save({
+                    success: () => {
+                        this.fireEvent('afterFormCreate');
 
-                },
+                    },
 
-                failure: () => {
-                    this.fireEvent('afterFormCreateError');
-                }
-            })
+                    failure: () => {
+                        this.fireEvent('afterFormCreateError');
+                    }
+                })
+        }
 
         this.formUpdate = document.querySelector(this.options.formUpdate);
 
-        this.formUpdate
-            .save({
-                success: () => {
-                    this.fireEvent('afterFormUpdate');
+        if (this.formUpdate) {
+            this.formUpdate
+                .save({
+                    success: () => {
+                        this.fireEvent('afterFormUpdate');
 
-                },
+                    },
 
-                failure: () => {
-                    this.fireEvent('afterFormUpdateError');
-                }
-            })
+                    failure: () => {
+                        this.fireEvent('afterFormUpdateError');
+                    }
+                })
+        }
     }
 
     fireEvent(name, args) {
@@ -117,9 +121,9 @@ class HcodeGrid {
                 btn.addEventListener('click', (e) => {
                     let tr = btn.parentNode.parentNode;
                     if (e.target.classList.contains(this.options.btnUpdate)) {
-                        this.btnUpdateClick(e);
+                        this.btnUpdateClick(btn, e);
                     } else if (e.target.classList.contains(this.options.btnDelete)) {
-                        this.btnDeleteClick(e);
+                        this.btnDeleteClick(btn, e);
                     } else {
                         this.fireEvent('buttonClick', [e.target, tr, e])
                     }
