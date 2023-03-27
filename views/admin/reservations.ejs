@@ -60,6 +60,9 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body no-padding">
+        <div style="padding: 10px">
+          <canvas id="chart" style="height: 250px"></canvas>
+        </div>
         <table class="table table-striped table-hover">
           <thead>
             <tr>
@@ -279,6 +282,7 @@
 <%- include('inc/footer') -%>
 
 <script src="/js/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/js/hcode-formsave.js"></script>
 <script src="/js/hcode-grid.js"></script>
 <script>
@@ -286,4 +290,58 @@
     deleteUrl: "/admin/reservations/${data.id}",
     deleteMsg: "Deseja realmente excluir a reserva de ${data.name}",
   });
+
+  let grafico = new Chart(document.querySelector("#chart").getContext("2d"), {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [],
+    },
+    options: {
+      tooltips: {
+        mode: "index",
+        intersect: false,
+      },
+      scale: {
+        xAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "Mes",
+            },
+          },
+        ],
+        yAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "Reservas",
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  fetch(`/admin/reservations/chart${window.location.search}`)
+    .then((res) => res.json())
+    .then((json) => {
+      grafico.data = {
+        labels: json.months,
+        datasets: [
+          {
+            data: [json.values],
+            label: "Reservas",
+            backgroundColor: "rgb(54, 162, 235)",
+            borderColor: "rgb(54, 162, 235)",
+            fill: true,
+            pointBackgroundColor: "#fff",
+          },
+        ],
+      };
+
+      grafico.update();
+    });
 </script>
